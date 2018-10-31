@@ -15,7 +15,9 @@ ImageCropperContainer::~ImageCropperContainer()
 
 void ImageCropperContainer::setImage(const QPixmap &_image)
 {
+    pixmap = _image;
     ui->imageCropper->setImage(_image);
+    zoomCropper(100);
 }
 
 void ImageCropperContainer::setBackgroundColor(const QColor &_backgroundColor)
@@ -41,4 +43,17 @@ void ImageCropperContainer::setProportionFixed(const bool _isFixed)
 const QPixmap ImageCropperContainer::cropImage()
 {
     return ui->imageCropper->cropImage();
+}
+
+void ImageCropperContainer::zoomCropper(int value)
+{
+    auto size = pixmap.size();
+    double newHeight = size.width() * (value / 100.0);
+    double newWidth = size.width() * (value / 100.0);
+    ui->imageCropper->setFixedSize(size.scaled(static_cast<int>(newHeight),static_cast<int>(newWidth),Qt::AspectRatioMode::KeepAspectRatio));
+}
+
+void ImageCropperContainer::on_zoomSlider_valueChanged(int value)
+{
+    zoomCropper(value);
 }

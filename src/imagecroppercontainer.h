@@ -24,8 +24,13 @@ public slots:
 public:
     const QPixmap cropImage();
 
+private slots:
+    void on_zoomSlider_valueChanged(int value);
+
 private:
     Ui::ImageCropperContainer *ui;
+    QPixmap pixmap;
+    void zoomCropper(int value);
 };
 
 #endif // IMAGECROPPERWRAPPER_H
