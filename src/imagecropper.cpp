@@ -56,7 +56,6 @@ void ImageCropper::setProportion(const QSizeF& _proportion)
 		pimpl->deltas.setHeight(heightDelta);
 		pimpl->deltas.setWidth(widthDelta);
 	}
-
 	// Обновим пропорции области выделения
 	if ( pimpl->isProportionFixed ) {
         qreal croppintRectSideRelation =
