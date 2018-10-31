@@ -1,9 +1,8 @@
-Image Cropper
+Image Cropper and Image Cropper Container
 =============
 
 Qt Widget for cropping images.
 
-![Screenshot](http://dimkanovikov.pro/img/content/projects/image_cropper/1.png)
 
 Using:
 -------------
@@ -35,6 +34,8 @@ And when you need crop image, just do it:
 ```cpp
 QPixmap croppedImage = imageCropper->cropImage();
 ```
+
+If you want give user ability to zoom the image, you can use ImageCropperContainer. It contains a slider and spin box to let user change the zoom rate.
 
 Build
 -------------
