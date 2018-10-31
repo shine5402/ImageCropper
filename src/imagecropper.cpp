@@ -50,8 +50,8 @@ void ImageCropper::setProportion(const QSizeF& _proportion)
 	if (pimpl->proportion != _proportion) {
 		pimpl->proportion = _proportion;
 		// ... расчитаем коэффициенты
-		float heightDelta = (float)_proportion.height() / _proportion.width();
-		float widthDelta = (float)_proportion.width() / _proportion.height();
+        auto heightDelta = (qreal)_proportion.height() / _proportion.width();
+        auto widthDelta = (qreal)_proportion.width() / _proportion.height();
 		// ... сохраним коэффициенты
 		pimpl->deltas.setHeight(heightDelta);
 		pimpl->deltas.setWidth(widthDelta);
@@ -59,10 +59,10 @@ void ImageCropper::setProportion(const QSizeF& _proportion)
 
 	// Обновим пропорции области выделения
 	if ( pimpl->isProportionFixed ) {
-		float croppintRectSideRelation =
-				(float)pimpl->croppingRect.width() / pimpl->croppingRect.height();
-		float proportionSideRelation =
-				(float)pimpl->proportion.width() / pimpl->proportion.height();
+        qreal croppintRectSideRelation =
+                (qreal)pimpl->croppingRect.width() / pimpl->croppingRect.height();
+        qreal proportionSideRelation =
+                (qreal)pimpl->proportion.width() / pimpl->proportion.height();
 		// Если область выделения не соответствует необходимым пропорциям обновим её
 		if (croppintRectSideRelation != proportionSideRelation) {
 			bool widthShotrerThenHeight =
@@ -105,6 +105,27 @@ void ImageCropper::onZoom()
     if (croppingSize.height() < MINIMUM_CROPPING_SIZE.height())
         croppingSize.setHeight(MINIMUM_CROPPING_SIZE.height());
     pimpl->croppingRect.setSize(croppingSize);
+    if ( pimpl->isProportionFixed ) {
+        qreal croppintRectSideRelation =
+                (qreal)pimpl->croppingRect.width() / pimpl->croppingRect.height();
+        qreal proportionSideRelation =
+                (qreal)pimpl->proportion.width() / pimpl->proportion.height();
+        // Если область выделения не соответствует необходимым пропорциям обновим её
+        if (croppintRectSideRelation != proportionSideRelation) {
+            bool widthShotrerThenHeight =
+                    pimpl->croppingRect.width() < pimpl->croppingRect.height();
+            // ... установим размер той стороны, что длиннее
+            if (widthShotrerThenHeight) {
+                pimpl->croppingRect.setHeight(
+                            pimpl->croppingRect.width() * pimpl->deltas.height());
+            } else {
+                pimpl->croppingRect.setWidth(
+                            pimpl->croppingRect.height() * pimpl->deltas.width());
+            }
+            // ... перерисуем виджет
+            update();
+        }
+    }
     }
 }
 
@@ -117,17 +138,17 @@ const QPixmap ImageCropper::cropImage()
 				this->size(), Qt::KeepAspectRatio, Qt::FastTransformation
 				).size();
 	// Определим расстояние от левого и верхнего краёв
-	float leftDelta = 0;
-	float topDelta = 0;
-	const float HALF_COUNT = 2;
+    qreal leftDelta = 0;
+    qreal topDelta = 0;
+    const qreal HALF_COUNT = 2;
 	if (this->size().height() == scaledImageSize.height()) {
 		leftDelta = (this->width() - scaledImageSize.width()) / HALF_COUNT;
 	} else {
 		topDelta = (this->height() - scaledImageSize.height()) / HALF_COUNT;
 	}
 	// Определим пропорцию области обрезки по отношению к исходному изображению
-	float xScale = (float)pimpl->imageForCropping.width()  / scaledImageSize.width();
-	float yScale = (float)pimpl->imageForCropping.height() / scaledImageSize.height();
+    qreal xScale = (qreal)pimpl->imageForCropping.width()  / scaledImageSize.width();
+    qreal yScale = (qreal)pimpl->imageForCropping.height() / scaledImageSize.height();
 	// Расчитаем область обрезки с учётом коррекции размеров исходного изображения
 	QRectF realSizeRect(
 				QPointF(pimpl->croppingRect.left() - leftDelta, pimpl->croppingRect.top() - topDelta),
@@ -169,10 +190,10 @@ void ImageCropper::paintEvent(QPaintEvent* _event)
 		// ... если это первое отображение после инициилизации, то центруем областо обрезки
 		if (pimpl->croppingRect.isNull()) {
             const int width = size().width();
-            const int height = size().height();
+            const int height = size().width();
 			pimpl->croppingRect.setSize(QSize(width, height));
-			float x = (this->width() - pimpl->croppingRect.width())/2;
-			float y = (this->height() - pimpl->croppingRect.height())/2;
+            qreal x = 0;
+            qreal y = 0;
 			pimpl->croppingRect.moveTo(x, y);
 		}
 
