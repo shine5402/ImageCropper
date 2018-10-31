@@ -1,10 +1,11 @@
-#include "imagecropper.h"
+﻿#include "imagecropper.h"
 
 #include <QMouseEvent>
 #include <QPainter>
 
 namespace {
-	static const QSize WIDGET_MINIMUM_SIZE(300, 300);
+    static const QSize WIDGET_MINIMUM_SIZE(1, 1);
+    static const QSizeF MINIMUM_CROPPING_SIZE(20,20);
 }
 
 ImageCropper::ImageCropper(QWidget* parent) :
@@ -86,8 +87,27 @@ void ImageCropper::setProportionFixed(const bool _isFixed)
 	if (pimpl->isProportionFixed != _isFixed) {
 		pimpl->isProportionFixed = _isFixed;
 		setProportion(pimpl->proportion);
-	}
+    }
 }
+
+void ImageCropper::onZoom()
+{
+    if (!pimpl->croppingRect.isNull())
+    {
+    auto croppingSize = pimpl->croppingRect.size();
+    auto widgetSize = size();
+    if (croppingSize.width() > widgetSize.width())
+        croppingSize.setWidth(widgetSize.width());
+    if (croppingSize.height() > widgetSize.height())
+        croppingSize.setHeight(widgetSize.height());
+    if (croppingSize.width() < MINIMUM_CROPPING_SIZE.width())
+        croppingSize.setWidth(MINIMUM_CROPPING_SIZE.width());
+    if (croppingSize.height() < MINIMUM_CROPPING_SIZE.height())
+        croppingSize.setHeight(MINIMUM_CROPPING_SIZE.height());
+    pimpl->croppingRect.setSize(croppingSize);
+    }
+}
+
 
 const QPixmap ImageCropper::cropImage()
 {
@@ -148,8 +168,8 @@ void ImageCropper::paintEvent(QPaintEvent* _event)
 	{
 		// ... если это первое отображение после инициилизации, то центруем областо обрезки
 		if (pimpl->croppingRect.isNull()) {
-			const int width = WIDGET_MINIMUM_SIZE.width()/2;
-			const int height = WIDGET_MINIMUM_SIZE.height()/2;
+            const int width = size().width();
+            const int height = size().height();
 			pimpl->croppingRect.setSize(QSize(width, height));
 			float x = (this->width() - pimpl->croppingRect.width())/2;
 			float y = (this->height() - pimpl->croppingRect.height())/2;

@@ -1,4 +1,4 @@
-#ifndef IMAGECROPPER_H
+﻿#ifndef IMAGECROPPER_H
 #define IMAGECROPPER_H
 
 #include "imagecropper_p.h"
@@ -25,7 +25,7 @@ public slots:
 	void setProportion(const QSizeF& _proportion);
 	// Использовать фиксированные пропорции области виделения
 	void setProportionFixed(const bool _isFixed);
-
+    void onZoom();
 public:
 	// Обрезать изображение
 	const QPixmap cropImage();
