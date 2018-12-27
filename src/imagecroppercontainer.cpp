@@ -1,4 +1,4 @@
-﻿#include "imagecroppercontainer.h"
+﻿#include "../include/imagecroppercontainer.h"
 #include "ui_imagecroppercontainer.h"
 
 ImageCropperContainer::ImageCropperContainer(QWidget *parent) :

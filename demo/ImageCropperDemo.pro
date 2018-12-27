@@ -8,7 +8,7 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 	QT += widgets
 }
 
-TARGET = ImageCropper
+TARGET = ImageCropperDemo
 TEMPLATE = app
 
 SRCDIR = ../src

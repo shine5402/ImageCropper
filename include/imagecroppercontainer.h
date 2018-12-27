@@ -3,11 +3,12 @@
 
 #include <QWidget>
 #include "imagecropper.h"
+#include "imagecropper_global.h"
 namespace Ui {
 class ImageCropperContainer;
 }
 
-class ImageCropperContainer : public QWidget
+class IMAGECROPPERSHARED_EXPORT ImageCropperContainer : public QWidget
 {
     Q_OBJECT
 

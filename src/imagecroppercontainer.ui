@@ -98,19 +98,6 @@
      </widget>
     </widget>
    </item>
-   <item row="1" column="1">
-    <widget class="QSpinBox" name="zoomSpinBox">
-     <property name="minimum">
-      <number>1</number>
-     </property>
-     <property name="maximum">
-      <number>1000</number>
-     </property>
-     <property name="value">
-      <number>100</number>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="0">
     <widget class="QSlider" name="zoomSlider">
      <property name="minimum">
@@ -130,13 +117,29 @@
      </property>
     </widget>
    </item>
+   <item row="1" column="1">
+    <widget class="QSpinBox" name="zoomSpinBox">
+     <property name="suffix">
+      <string>%</string>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>1000</number>
+     </property>
+     <property name="value">
+      <number>100</number>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
    <class>ImageCropper</class>
    <extends>QWidget</extends>
-   <header>../ImageCropper/src/imagecropper.h</header>
+   <header>../include/imagecropper.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

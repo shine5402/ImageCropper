@@ -3,10 +3,11 @@
 
 #include "imagecropper_p.h"
 #include "imagecropper_e.h"
+#include "imagecropper_global.h"
 
 #include <QWidget>
 
-class ImageCropper : public QWidget
+class IMAGECROPPERSHARED_EXPORT ImageCropper : public QWidget
 {
     Q_OBJECT
 

@@ -1,4 +1,4 @@
-﻿#include "imagecropper.h"
+﻿#include "../include/imagecropper.h"
 
 #include <QMouseEvent>
 #include <QPainter>
