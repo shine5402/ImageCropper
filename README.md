@@ -42,6 +42,8 @@ Build
 
 Qt 4.6 and greater, or Qt 5.1 and greater
 
+From commit f146093, the ImageCropper and ImageCropperContainer is packaged in shared library. It allow users to use it without sharing their project's source code which use ImageCrooper.
+
 License
 -------------
 
